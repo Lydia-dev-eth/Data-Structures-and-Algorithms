@@ -1,6 +1,6 @@
 🎓 MIT 6.006 — Introduction to Algorithms
 
-«Building a strong foundation in algorithms and data structures through theory, implementation, and problem solving.»
+Building a strong foundation in algorithms and data structures through theory, implementation, and problem solving.
 
 This directory contains my work while studying MIT 6.006 — Introduction to Algorithms.
 
