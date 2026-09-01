@@ -1,6 +1,6 @@
-🎓 MIT 6.006 — Introduction to Algorithms
+ 🎓 MIT 6.006 — Introduction to Algorithms
 
-Building a strong foundation in algorithms and data structures through theory, implementation, and problem solving.
+«Building a strong foundation in algorithms and data structures through theory, implementation, and problem solving.»
 
 This directory contains my work while studying MIT 6.006 — Introduction to Algorithms.
 
@@ -220,7 +220,7 @@ Apply the idea to LeetCode
 Solve unfamiliar problems
 
 For example:
-[9/1/2026 2:45 PM] Lydia: Hash Tables
+Hash Tables
      ↓
 Learn the concept
      ↓
