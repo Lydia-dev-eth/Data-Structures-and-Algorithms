@@ -1,360 +1,170 @@
- # 🧩 LeetCode — Algorithm & Problem-Solving Practice
+# Two Sum
 
-> **Applying algorithms and data structures to solve interview-style problems.**
+## Problem
 
-This directory contains my **LeetCode solutions and problem-solving practice**, organized by topic.
+Given an array of integers `nums` and an integer `target`, return the indices of the two numbers such that they add up to `target`.
 
-The goal is not to collect as many solved problems as possible. The goal is to develop the ability to:
+You may assume that each input has exactly one solution, and you cannot use the same element twice.
 
-* Recognize patterns
-* Choose appropriate data structures
-* Develop solutions independently
-* Analyze time and space complexity
-* Improve inefficient solutions
-* Explain the reasoning behind a solution
-* Transfer concepts learned from MIT 6.006 to unfamiliar problems
+### Example
+
+```text
+Input:
+nums = [2, 7, 11, 15]
+target = 9
+
+Output:
+[0, 1]
+```
+
+Because:
+
+```text
+nums[0] + nums[1] = 2 + 7 = 9
+```
 
 ---
 
-# 📂 Structure
+## Approach 1 — Brute Force
+
+The simplest approach is to check every possible pair.
+
+For each element, compare it with every element after it and check whether their sum equals `target`.
+
+### Example
 
 ```text
-leetcode/
-│
-├── README.md
-│
-├── arrays/
-├── strings/
-├── hashing/
-├── two-pointers/
-├── sliding-window/
-├── stacks/
-├── queues/
-├── linked-lists/
-├── binary-search/
-├── sorting/
-├── trees/
-├── heaps/
-├── graphs/
-├── greedy/
-├── backtracking/
-├── dynamic-programming/
-└── ...
+[2, 7, 11, 15]
 ```
 
-Problems are primarily organized by **algorithmic topic**, making it easy to revisit a specific data structure or technique.
+Check:
+
+```text
+2 + 7   → 9  ✓
+```
+
+So we return `[0, 1]`.
+
+### Complexity
+
+* **Time:** `O(n²)`
+* **Space:** `O(1)`
+
+The problem is that we may need to check almost every pair.
 
 ---
 
-# 🧠 How Each Problem Is Organized
+## Approach 2 — Hash Table
 
-Each topic contains the problems belonging to that category.
+Instead of searching through the remaining elements repeatedly, we can store numbers we have already seen in a hash table.
 
-For example:
+For each number `x`, calculate:
 
 ```text
-arrays/
-│
-├── two-sum/
-│   ├── README.md
-│   └── solution.py
-│
-├── best-time-to-buy-and-sell-stock/
-│   ├── README.md
-│   └── solution.py
-│
-└── maximum-subarray/
-    ├── README.md
-    └── solution.py
+complement = target - x
 ```
 
-The exact structure can grow as more problems are solved.
+Then ask:
+
+> Have I already seen this complement?
+
+If yes, we have found the answer.
+
+### Example
+
+```text
+nums = [2, 7, 11, 15]
+target = 9
+```
+
+Start with:
+
+```text
+x = 2
+complement = 9 - 2 = 7
+```
+
+`7` has not been seen, so store:
+
+```text
+2 → index 0
+```
+
+Next:
+
+```text
+x = 7
+complement = 9 - 7 = 2
+```
+
+`2` is already in the hash table at index `0`.
+
+Therefore:
+
+```text
+[0, 1]
+```
 
 ---
 
-# 📝 Problem README
+## Why This Is Faster
 
-Each problem can contain a short `README.md` documenting the reasoning behind the solution.
+The brute-force solution repeatedly searches for a matching number.
 
-A typical problem README includes:
+The hash-table solution allows us to check whether the complement has already appeared in expected `O(1)` time.
 
-```text
-Problem
-   ↓
-Approach
-   ↓
-Brute Force
-   ↓
-Optimization
-   ↓
-Complexity
-   ↓
-Key Insight
-```
-
-For example:
-
-### Problem
-
-**Two Sum**
-
-### Brute Force
-
-Try every pair of numbers.
+So instead of:
 
 ```text
-Time: O(n²)
-Space: O(1)
+O(n²)
 ```
 
-### Optimized Approach
-
-Use a hash table to remember previously seen values.
+we can solve the problem in:
 
 ```text
-Time: O(n) expected
-Space: O(n)
+O(n)
 ```
-
-### Key Insight
-
-Instead of repeatedly searching the array, use a hash table to perform expected O(1) lookups.
-
-The purpose is to document **why the optimized solution works**, not just store the final code.
 
 ---
 
-# 🔄 Solution Evolution
+## Complexity
 
-I keep the **final clean solution** in the problem folder rather than creating files such as:
+| Approach    |            Time |  Space |
+| ----------- | --------------: | -----: |
+| Brute Force |         `O(n²)` | `O(1)` |
+| Hash Table  | `O(n)` expected |        |
+
+The important idea is not simply "use a dictionary."
+
+The key question is:
+
+> **What information can I store while traversing the array so that I don't have to search for it again?**
+
+For every number `x`, the required partner is:
 
 ```text
-solution_v1.py
-solution_v2.py
-solution_final.py
-solution_final2.py
+target - x
 ```
 
-Instead, Git tracks the evolution of the solution.
-
-For example:
-
-```text
-solve two sum using brute force
-optimize two sum using hash table
-refactor solution
-add complexity analysis
-```
-
-This keeps the repository clean while preserving the development history.
+A hash table lets us remember previously seen numbers and find that partner efficiently.
 
 ---
 
-# 🐢 Brute Force → ⚡ Optimization
+## What I Learned
 
-When appropriate, I document the progression from a straightforward solution to a more efficient one.
-
-```text
-Understand the problem
-        ↓
-Find a simple solution
-        ↓
-Implement brute force
-        ↓
-Analyze complexity
-        ↓
-Identify the bottleneck
-        ↓
-Find a better data structure / pattern
-        ↓
-Optimize
-        ↓
-Analyze again
-```
-
-The brute-force solution is **not something to be ashamed of**.
-
-It is often the first step toward discovering the optimized solution.
+* How to recognize when brute force performs repeated searching.
+* How a hash table can reduce search time.
+* How to derive the complement instead of searching for a pair directly.
+* The trade-off between time and space.
+* How an `O(n²)` solution can be improved to expected `O(n)`.
 
 ---
 
-# 🔗 Connection to MIT 6.006
-
-LeetCode is used as a practical extension of my MIT 6.006 studies.
-
-```text
-MIT 6.006
-     ↓
-Learn algorithm / data structure
-     ↓
-Implement it from scratch
-     ↓
-Understand complexity
-     ↓
-MIT Problem Sets
-     ↓
-LeetCode
-     ↓
-Apply the idea to unfamiliar problems
-```
-
-For example:
-
-```text
-MIT 6.006
-    ↓
-Learn Hash Tables
-    ↓
-Understand expected O(1) lookup
-    ↓
-Implement a hash table
-    ↓
-Solve hash-based problems
-    ↓
-Recognize when hashing is useful
-```
-
-The goal is to move from **learning an algorithm** to **recognizing when an algorithmic idea is useful**.
-
----
-
-# 🧩 Patterns
-
-Patterns are not treated as a separate collection of duplicate solutions.
-
-Instead, patterns are **ideas that emerge across multiple problems**.
-
-For example:
-
-```text
-Two Pointers
-├── Problem A
-├── Problem B
-└── Problem C
-
-Sliding Window
-├── Problem D
-├── Problem E
-└── Problem F
-```
-
-When I notice that several problems use the same underlying technique, I can document that insight in the relevant topic or problem notes.
-
-The individual problems remain organized by topic, while the pattern is the **reusable idea connecting them**.
-
----
-
-# 📊 Complexity
-
-Every solution should aim to include:
-
-| Metric | Description                             |
-| ------ | --------------------------------------- |
-| Time   | How running time grows with input size  |
-| Space  | Additional memory used by the algorithm |
-
-For example:
-
-```text
-Time:  O(n)
-Space: O(n)
-```
-
-The goal is not to memorize complexity numbers, but to understand **where the cost comes from**.
-
----
-
-# 🎯 Problem-Solving Principles
-
-### 1. Understand before coding
-
-Identify:
-
-* What is the input?
-* What is the output?
-* What constraints matter?
-* What makes the problem difficult?
-
-### 2. Start simple
-
-If I cannot immediately see the optimal solution, I first try to develop a correct straightforward approach.
-
-### 3. Find the bottleneck
-
-Ask:
-
-> **What part of my solution is making it slow?**
-
-### 4. Choose the right tool
-
-Consider whether a different:
-
-* Data structure
-* Algorithm
-* Traversal strategy
-* Mathematical observation
-* Problem-solving pattern
-
-can remove the bottleneck.
-
-### 5. Verify the solution
-
-Test:
-
-* Normal cases
-* Edge cases
-* Small inputs
-* Large inputs
-* Duplicate values
-* Empty inputs where applicable
-
----
-
-# 📚 Topics
-
-The repository currently focuses on:
+## Related Concepts
 
 * Arrays
-* Strings
-* Hashing
-* Two Pointers
-* Sliding Window
-* Stacks
-* Queues
-* Linked Lists
-* Binary Search
-* Sorting
-* Trees
-* Heaps
-* Graphs
-* Greedy Algorithms
-* Backtracking
-* Dynamic Programming
-
-More topics will be added as I encounter them.
-
----
-
-# 🎯 Goal
-
-The ultimate goal of this section is to develop **interview-ready problem-solving ability**, rather than simply maximizing the number of problems solved.
-
-I want to be able to look at an unfamiliar problem and reason:
-
-```text
-What is the problem asking?
-        ↓
-What information do I need to track?
-        ↓
-What is the simplest correct approach?
-        ↓
-Where is the bottleneck?
-        ↓
-What pattern or data structure could remove it?
-        ↓
-What is the resulting complexity?
-        ↓
-Can I explain why it works?
-```
-
-> **Solve problems to learn how to think, not just to increase the solved count.**
+* Hash Tables
+* Dictionaries
+* Time Complexity
+* Space Complexity
+* Brute Force → Optimization
