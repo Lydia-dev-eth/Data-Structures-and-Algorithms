@@ -1,0 +1,272 @@
+%
+% 6.006 problem set 1 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{1}
+
+\title{6.006 Problem Set 1}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+
+\problempart % Problem 1a
+$(f_5, f_3, f_4, f_1, f_2)$
+
+Compare growth by looking at $\ln$ of each function. $f_5 = \log\log(6006n) = \Theta(\log\log n)$
+barely grows, so it's smallest. $f_3 = \log(n^{6006}) = 6006\log n = \Theta(\log n)$, and $\log n$
+dominates $\log\log n$, so $f_5$ comes before $f_3$. $f_4 = (\log n)^{6006}$ is a fixed power of
+$\log n$, which eventually beats any constant multiple of $\log n$, so $f_3$ comes before $f_4$.
+For $f_4$ vs.\ $f_1 = \log(n^n) = n\log n$: $\ln f_4 = 6006\ln\ln n$ while $\ln f_1 \approx \ln n$,
+and $\ln n$ eventually dominates $\ln\ln n$, so $f_4$ is $o(f_1)$. Finally $f_2 = (\log n)^n$ beats
+$f_1$ since $\ln f_2 = n\ln\ln n$ grows faster than $\ln f_1 \approx \ln n$.
+
+\problempart % Problem 1b
+$(f_1, f_2, f_5, f_4, f_3)$
+
+Write everything as a power of 2: $f_1 = 2^n$, $f_2 = 6006^n = 2^{n\log_2 6006}$,
+$f_5 = 6006^{n^2} = 2^{n^2\log_2 6006}$, $f_4 = 6006^{2^n} = 2^{2^n\log_2 6006}$, and
+$f_3 = 2^{6006^n} = 2^{2^{n\log_2 6006}}$. Since $\log_2 6006 > 1$, the exponents satisfy
+$n < n\log_2 6006 < n^2\log_2 6006 < 2^n\log_2 6006 < 2^{n\log_2 6006}$ for large $n$
+(each step is either multiplying by a growing factor or swapping a polynomial exponent for
+an exponential one), which gives exactly this order.
+
+\problempart % Problem 1c
+$(\{f_2, f_5\}, f_4, f_1, f_3)$
+
+$f_2 = \binom{n}{n-6} = \binom{n}{6} = \Theta(n^6)$, which ties with $f_5 = n^6$. By the
+entropy bound on binomial coefficients, $f_4 = \binom{n}{n/6} = 2^{\Theta(n)}$ --- exponential
+with a linear exponent --- which dominates any polynomial, so $\{f_2,f_5\}$ comes before $f_4$.
+Next, $f_1 = n^n = 2^{n\log n}$ grows faster than any $2^{cn}$, so $f_4$ comes before $f_1$.
+Finally, Stirling's approximation gives $\ln f_3 = \ln((6n)!) \approx 6n\ln(6n) - 6n \approx
+6n\ln n$, versus $\ln f_1 \approx n\ln n$; since the gap $5n\ln n \to \infty$, $f_3$ dominates $f_1$.
+
+\problempart % Problem 1d
+$(f_5, f_2, f_1, f_3, f_4)$
+
+$f_5 = n^{12+1/n} = \Theta(n^{12})$ is the only true polynomial here, so it's smallest.
+Writing the rest as powers of 2: by Stirling, $n! = o(n^{n+4})$, so
+$f_1 = n^{n+4}+n! = \Theta(n^{n+4}) = 2^{\Theta(n\log n)}$. Also $f_2 = n^{7\sqrt n} =
+2^{7\sqrt n \log n}$, $f_3 = 4^{3n\log n} = 2^{6n\log n}$, and $f_4 = 7^{n^2} =
+2^{n^2\log_2 7}$. Since $\sqrt n \log n = o(n\log n)$, $f_2$ precedes $f_1$. Since the exponent
+gap between $f_3$ and $f_1$ is $\Theta(n\log n)\to\infty$, $f_1$ precedes $f_3$. And since
+$n\log n = o(n^2)$, $f_3$ precedes $f_4$.
+
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+To reverse the $k$ items starting at index $i$, pull them out one at a time from the front of
+the block (which shifts the rest of the block down by one each time), then reinsert them at
+the same starting index in the opposite order:
+
+\begin{verbatim}
+def reverse(D, i, k):
+    items = []
+    for t in range(k):
+        items.append(D.delete_at(i))      # extracts items in order
+    for t in range(k):
+        D.insert_at(i + t, items[k - 1 - t])  # writes them back reversed
+\end{verbatim}
+
+Each of the $2k$ calls to \texttt{delete\_at}/\texttt{insert\_at} costs $O(\log n)$, so the
+total runtime is $O(k\log n)$.
+
+\problempart % Problem 2b
+Pull the $k$ items out of position $i$ (again, $k$ deletions at the same index $i$, since the
+block shifts down after each one), and reinsert them, in their original order, in front of
+item $j$. The only subtlety is that if $j \geq i+k$, deleting the block first shifts item $j$
+left by $k$ positions, so the reinsertion point becomes $j-k$ rather than $j$:
+
+\begin{verbatim}
+def move(D, i, k, j):
+    items = []
+    for t in range(k):
+        items.append(D.delete_at(i))
+    pos = j if j < i else j - k
+    for t in range(k):
+        D.insert_at(pos + t, items[t])
+\end{verbatim}
+
+This is again $2k$ calls to $O(\log n)$ operations, so $O(k\log n)$ total.
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+
+Split the binder into three regions based on the two bookmarks: $L$ (pages before $A$),
+$M$ (pages between $A$ and $B$), and $R$ (pages after $B$). Store each region in its own
+dynamic array implemented as a circular buffer/deque (the same doubling/halving dynamic
+array from lecture, but allowing $O(1)$ amortized push/pop at \emph{either} end, not just the
+back). Each region also supports $O(1)$ worst-case random access by its local index. Maintain
+two integers, $|L|$ and $|M|$, so that global index $i$ maps to local index $i$ in $L$ if
+$i < |L|$, local index $i - |L|$ in $M$ if $|L| \le i < |L|+|M|$, and local index
+$i - |L| - |M|$ in $R$ otherwise.
+
+With ``in front of page $p$'' meaning ``immediately precedes $p$,'' the operations become:
+
+\begin{itemize}
+\item \textbf{build($X$):} Load every page from $X$ into a single deque (say $M$, with
+$L$ and $R$ empty) using the standard $O(n)$ array-build. \emph{Worst-case} $O(n)$.
+
+\item \textbf{place\_mark($i,m$):} Walk once through the current contents (in $O(n)$) and
+redistribute pages into new $L$/$M$/$R$ deques consistent with the updated bookmark
+positions, rebuilding each with the $O(n)$ array-build. \emph{Worst-case} $O(n)$.
+
+\item \textbf{read\_page($i$):} Use $|L|,|M|$ to identify the region and local index, then do
+one array access. \emph{Worst-case} $O(1)$.
+
+\item \textbf{shift\_mark($m,d$):} Shifting $A$ moves one page between the $A$-end of $L$ and
+the $A$-end of $M$ (\texttt{pop\_back}/\texttt{push\_front} or the reverse); shifting $B$
+moves one page between the $B$-end of $M$ and the $B$-end of $R$ similarly. Update $|L|$ or
+$|M|$ by $\pm 1$. \emph{Amortized} $O(1)$ (dynamic-array push/pop).
+
+\item \textbf{move\_page($m$):} The page in front of $A$ is the last page of $L$; move it
+(\texttt{pop\_back} on $L$, \texttt{push\_back} on $M$) to become the new last page of $M$,
+i.e.\ in front of $B$. Symmetrically, the page in front of $B$ is the last page of $M$; move
+it (\texttt{pop\_back} on $M$, \texttt{push\_back} on $L$) to become the new last page of $L$,
+i.e.\ in front of $A$. Update $|L|,|M|$ accordingly. \emph{Amortized} $O(1)$.
+\end{itemize}
+
+Every operation only ever touches the two pages adjacent to a bookmark, which is exactly why
+keeping $L$, $M$, $R$ as separate deques (rather than one big array) keeps
+\texttt{shift\_mark} and \texttt{move\_page} from having to shift the rest of the binder.
+
+\newpage
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+Each of these only ever touches \texttt{head}, \texttt{tail}, and the one new/removed node,
+so all four run in $O(1)$.
+
+\textbf{insert\_first($x$):} Create a new node $y$ with $y.item = x$. If the list is empty
+(\texttt{tail} is \texttt{None}), set $L.head = L.tail = y$. Otherwise, point the new node at
+the old head ($y.next = L.head$), point the old head back at it ($L.head.prev = y$), then make
+it the new head ($L.head = y$).
+
+\textbf{insert\_last($x$):} Symmetric to \texttt{insert\_first}. Create a new node $y$. If the
+list is empty, set $L.head = L.tail = y$. Otherwise, link the old tail forward to it
+($L.tail.next = y$), link it back to the old tail ($y.prev = L.tail$), then make it the new
+tail ($L.tail = y$).
+
+\textbf{delete\_first():} If the list is empty, return \texttt{None}. Otherwise let
+$x = L.head.item$. If $L.head.next$ exists, advance the head ($L.head = L.head.next$) and
+clear its back-pointer ($L.head.prev = \texttt{None}$); if it doesn't (the list had exactly
+one node), set $L.head = L.tail = \texttt{None}$. Return $x$.
+
+\textbf{delete\_last():} Symmetric to \texttt{delete\_first}, using \texttt{tail}/\texttt{prev}
+in place of \texttt{head}/\texttt{next}.
+
+\problempart % Problem 4b
+Since $x_1$ occurs before $x_2$ in $L$, everything from $x_1$ through $x_2$ becomes the new
+list $L_2$, and $L$ keeps whatever came before $x_1$ and after $x_2$. All of this is just
+pointer surgery around the two boundary nodes -- no traversal needed -- so it's $O(1)$:
+
+\begin{enumerate}
+\item Set $L_2.head = x_1$ and $L_2.tail = x_2$.
+\item If $x_1$ has a predecessor in $L$ (i.e.\ $x_1 \ne L.head$), link that predecessor
+directly to $x_2.next$, skipping the removed chain: $x_1.prev.next = x_2.next$. Otherwise
+$x_1$ was the head of $L$, so $L.head = x_2.next$.
+\item Symmetrically, if $x_2$ has a successor in $L$ (i.e.\ $x_2 \ne L.tail$), link it back to
+$x_1.prev$: $x_2.next.prev = x_1.prev$. Otherwise $x_2$ was the tail of $L$, so
+$L.tail = x_1.prev$.
+\item Finally, cut $L_2$ loose from $L$ by clearing its outward-facing pointers:
+$x_1.prev = \texttt{None}$ and $x_2.next = \texttt{None}$.
+\end{enumerate}
+
+\problempart % Problem 4c
+Let $y = x.next$ (the node in $L_1$ that currently follows $x$; $y$ is \texttt{None} if
+$x = L_1.tail$). If $L_2$ is empty, there's nothing to do. Otherwise, stitch $L_2$ in between
+$x$ and $y$, then empty $L_2$ out -- again just pointer rewiring, so $O(1)$:
+
+\begin{enumerate}
+\item Link $x$ forward to $L_2$'s first node, and link that node back to $x$:
+$x.next = L_2.head$, $\ L_2.head.prev = x$.
+\item Link $L_2$'s last node forward to $y$: $L_2.tail.next = y$. If $y$ exists, link it back
+to $L_2.tail$ ($y.prev = L_2.tail$); otherwise $x$ was $L_1$'s tail, so update
+$L_1.tail = L_2.tail$.
+\item Empty out $L_2$: set $L_2.head = L_2.tail = \texttt{None}$.
+\end{enumerate}
+
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
