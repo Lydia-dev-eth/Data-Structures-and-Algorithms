@@ -1,0 +1,157 @@
+# Problem Set 1
+
+> MIT 6.006 — Introduction to Algorithms
+
+## Overview
+
+This problem set focuses on asymptotic analysis, sequence data structures, dynamic arrays/deques, and doubly linked lists.
+
+The problems combine theoretical reasoning with data-structure design and implementation. The programming portion includes implementing operations on a doubly linked list, including insertion, deletion, removal of a contiguous section, and splicing two lists.
+
+## Topics
+
+* Asymptotic growth and comparison of functions
+* Dynamic sequences
+* Dynamic arrays and deques
+* Data-structure design
+* Doubly linked lists
+* Pointer manipulation
+* Time and space complexity
+
+## Problems
+
+| # | Focus                 | Main Concepts                              | Status |
+| - | --------------------- | ------------------------------------------ | ------ |
+| 1 | Asymptotic analysis   | Growth rates, Big-O, Θ, little-o           | ✅      |
+| 2 | Sequence operations   | Dynamic sequences, operation cost          | ✅      |
+| 3 | Binder data structure | Deques, dynamic arrays, amortized analysis | ✅      |
+| 4 | Doubly linked lists   | Insertion, deletion, remove, splice        | 🔄     |
+
+## Problem 1 — Asymptotic Analysis
+
+Compare and order functions according to their asymptotic growth.
+
+Key ideas:
+
+* Comparing growth rates
+* Logarithmic, polynomial, exponential, and factorial growth
+* Rewriting expressions to make comparisons easier
+* Using Stirling's approximation and binomial bounds when needed
+
+## Problem 2 — Sequence Operations
+
+Design operations for reversing and moving a block of elements in a dynamic sequence.
+
+The main focus is understanding how the cost of existing sequence operations affects the overall running time. The solutions target `O(k log n)` time for the required operations.
+
+## Problem 3 — Binder Data Structure
+
+Design a data structure that supports efficient operations on a binder with two bookmarks.
+
+The solution divides the sequence into three regions:
+
+```text
+L | M | R
+```
+
+where the regions are maintained using deques.
+
+The main idea is to make operations near the bookmarks efficient by moving only the affected pages instead of shifting the entire sequence.
+
+### Main concepts
+
+* Dynamic arrays
+* Deques
+* Amortized analysis
+* Data-structure design
+* Maintaining multiple views of a sequence
+
+## Problem 4 — Doubly Linked Lists
+
+Implement and manipulate a doubly linked list sequence.
+
+### Implemented Operations
+
+* `insert_first`
+* `insert_last`
+* `delete_first`
+* `delete_last`
+* `remove`
+* `splice`
+
+The implementation maintains `head` and `tail` references and updates the `prev` and `next` pointers when nodes are inserted, removed, or connected to another list. The intended operations are performed through local pointer updates rather than traversing the list.
+
+### Complexity
+
+| Operation      | Complexity |
+| -------------- | ---------: |
+| `insert_first` |     `O(1)` |
+| `insert_last`  |     `O(1)` |
+| `delete_first` |     `O(1)` |
+| `delete_last`  |     `O(1)` |
+| `remove`       |     `O(1)` |
+| `splice`       |     `O(1)` |
+
+## Files
+
+```text
+ ps1/
+├── ps1-solutions
+├── Doubly_Linked_List_Seq
+├── macros-sp20
+└── tests
+```
+
+* `README.md` — overview and notes for this problem set
+* `ps1-solutions.tex` — completed written solutions using the MIT LaTeX template
+* `Doubly_Linked_List_Seq.py` — programming implementation using the MIT Python template
+* `tests.py` — provided tests for the programming portion
+* `macros-sp20.tex` — provided tests for the programming portion
+
+## Key Takeaways
+
+* Asymptotic analysis helps compare algorithms and predict how they scale.
+* The right data structure can reduce the cost of repeated operations.
+* Amortized analysis is useful when individual operations may occasionally be expensive.
+* Doubly linked lists allow constant-time insertion and deletion when the relevant nodes are already known.
+* Correct pointer updates are essential when modifying linked structures.
+
+## Related Material
+
+### MIT 6.006
+
+* Lectures covering asymptotic analysis
+* Dynamic arrays and sequences
+* Linked lists and data structures
+
+### LeetCode
+
+Related topics for later practice:
+
+* [Arrays](../../leetcode/arrays/)
+* [Linked Lists](../../leetcode/linked-lists/)
+
+## Reflection
+
+### What was difficult?
+
+Understanding which data structure gives the required operation complexity and carefully updating linked-list pointers.
+
+### What became clearer?
+
+The relationship between data-structure design and algorithmic complexity became clearer, especially for operations that can be made `O(1)` through direct pointer updates.
+
+### What would I revisit?
+
+* Amortized analysis
+* Dynamic array/deque implementations
+* Edge cases in linked-list operations
+
+## Status
+
+* [x] Written solutions completed
+* [x] Programming solutions completed
+* [x] Complexity analyzed
+* [ ] Concepts reviewed
+
+**Status:** 🔄 In Progress
