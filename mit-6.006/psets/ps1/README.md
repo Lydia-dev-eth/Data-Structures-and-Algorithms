@@ -152,6 +152,6 @@ The relationship between data-structure design and algorithmic complexity became
 * [x] Written solutions completed
 * [x] Programming solutions completed
 * [x] Complexity analyzed
-* [ ] Concepts reviewed
+* [x] Concepts reviewed
 
-**Status:** 🔄 In Progress
+**Status:**  ✅  completed
