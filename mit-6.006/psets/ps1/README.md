@@ -25,7 +25,7 @@ The problems combine theoretical reasoning with data-structure design and implem
 | 1 | Asymptotic analysis   | Growth rates, Big-O, Θ, little-o           | ✅      |
 | 2 | Sequence operations   | Dynamic sequences, operation cost          | ✅      |
 | 3 | Binder data structure | Deques, dynamic arrays, amortized analysis | ✅      |
-| 4 | Doubly linked lists   | Insertion, deletion, remove, splice        | 🔄     |
+| 4 | Doubly linked lists   | Insertion, deletion, remove, splice        | ✅     |
 
 ## Problem 1 — Asymptotic Analysis
 
