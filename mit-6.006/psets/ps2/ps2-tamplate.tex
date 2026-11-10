@@ -1,0 +1,340 @@
+%
+% 6.006 problem set 2 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{2}
+
+\title{6.006 Problem Set 2}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+$T(n) = 4T(n/2) + O(n)$. \textbf{Recursion tree:} level $i$ has $4^i$ nodes, each on a
+subproblem of size $n/2^i$, so each costs at most $cn/2^i$.
+
+\begin{center}
+\begin{tabular}{c|c|c|c}
+level & nodes & work per node & work in level \\ \hline
+$0$ & $1$ & $cn$ & $cn$ \\
+$1$ & $4$ & $cn/2$ & $2cn$ \\
+$i$ & $4^i$ & $cn/2^i$ & $2^i cn$ \\
+$\lg n$ (leaves) & $4^{\lg n} = n^2$ & $\Theta(1)$ & $\Theta(n^2)$
+\end{tabular}
+\end{center}
+
+The level costs grow geometrically, so the total is at most
+$cn\sum_{i=0}^{\lg n}2^i < 2cn\cdot n = O(n^2)$. The $n^2$ leaves alone cost
+$\Omega(n^2)$. So $T(n) = \Theta(n^2)$.
+
+\textbf{Master Theorem:} $a=4$, $b=2$, so $n^{\log_b a} = n^2$. Since $f(n)=O(n)=O(n^{2-\varepsilon})$
+with $\varepsilon = 1$, case 1 gives $T(n)=\Theta(n^2)$.
+
+\problempart % Problem 1b
+$T(n) = 3T(n/\sqrt2) + O(n^4)$. \textbf{Recursion tree:} level $i$ has $3^i$ nodes of size
+$n/2^{i/2}$, each costing at most $c\,n^4/4^i$.
+
+\begin{center}
+\begin{tabular}{c|c|c|c}
+level & nodes & work per node & work in level \\ \hline
+$0$ & $1$ & $cn^4$ & $cn^4$ \\
+$i$ & $3^i$ & $cn^4/4^i$ & $(3/4)^i cn^4$ \\
+last & $3^{2\lg n} = n^{2\lg 3}$ & $\Theta(1)$ & $\Theta(n^{2\lg 3})$
+\end{tabular}
+\end{center}
+
+The level costs shrink geometrically, so the total is at most
+$cn^4\sum_{i\ge 0}(3/4)^i = 4cn^4$, giving $T(n)=O(n^4)$. The leaves alone cost
+$\Omega(n^{2\lg 3})$, giving $T(n)=\Omega(n^{2\lg 3})$ (note $2\lg 3\approx 3.17 < 4$).
+
+\textbf{Master Theorem:} $a=3$, $b=\sqrt2$, so $n^{\log_b a}=n^{2\lg 3}$. For the upper bound
+take $f(n)=n^4$: $f(n)=\Omega(n^{2\lg 3+\varepsilon})$ for $\varepsilon \le 4-2\lg 3$, and
+$3f(n/\sqrt2) = \tfrac34 n^4 \le c f(n)$ with $c = 3/4 < 1$, so case 3 gives $O(n^4)$.
+For the lower bound take $f(n)=0$: case 1 gives $\Omega(n^{2\lg 3})$.
+(Since $f$ is only bounded above by $O(n^4)$, these are the tightest bounds the recurrence allows.)
+
+\problempart % Problem 1c
+$T(n) = 2T(n/2) + 5n\log n$. \textbf{Recursion tree:} level $i$ has $2^i$ nodes of size $n/2^i$,
+each costing $5\frac{n}{2^i}\log\frac{n}{2^i}$.
+
+\begin{center}
+\begin{tabular}{c|c|c|c}
+level & nodes & work per node & work in level \\ \hline
+$0$ & $1$ & $5n\log n$ & $5n\log n$ \\
+$i$ & $2^i$ & $5\frac{n}{2^i}(\log n - i)$ & $5n(\log n - i)$ \\
+$\lg n$ (leaves) & $n$ & $\Theta(1)$ & $\Theta(n)$
+\end{tabular}
+\end{center}
+
+Substituting $j=\log n - i$ and summing over all levels:
+$\sum_{j=0}^{\log n} 5nj = 5n\,\frac{\log n(\log n+1)}{2} = \Theta(n\log^2 n)$.
+
+\textbf{Master Theorem:} $a=b=2$, so $n^{\log_b a}=n$, and $f(n)=5n\log n=\Theta(n\log^1 n)$.
+This is case 2 with $k=1$, so $T(n)=\Theta(n\log^2 n)$.
+
+\problempart % Problem 1d
+$T(n) = T(n-2)+\Theta(n)$, by substitution. Say the $\Theta(n)$ term lies between $d_1 n$ and
+$d_2 n$. Guess $T(n)=\Theta(n^2)$.
+
+\emph{Upper bound:} assume $T(m)\le cm^2$ for $m<n$. Then
+$T(n)\le c(n-2)^2 + d_2 n = cn^2 - 4cn + 4c + d_2 n \le cn^2$
+whenever $4cn - 4c \ge d_2 n$, which holds for $n\ge 2$ if $c \ge d_2/2$.
+
+\emph{Lower bound:} assume $T(m)\ge cm^2$ for $m<n$. Then
+$T(n)\ge c(n-2)^2 + d_1 n = cn^2 - 4cn + 4c + d_1 n \ge cn^2$
+whenever $d_1 n \ge 4cn$, which holds if $c \le d_1/4$.
+
+The base case $T(1)=\Theta(1)$ is fine for a small enough $c$ (lower) and large enough $c$ (upper).
+Hence $T(n)=\Theta(n^2)$.
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+\textbf{Selection sort.} The sort must be in-place, which rules out merge sort. Of the other two,
+what matters is the number of \texttt{set\_at} calls, since each costs $\Theta(n\log n)$ while
+\texttt{get\_at} is $\Theta(1)$. Insertion sort may do $\Theta(n^2)$ \texttt{set\_at} calls (every
+shift is a write), for $O(n^2\cdot n\log n)=O(n^3\log n)$. Selection sort does $O(n^2)$ reads but
+only $O(n)$ writes (one swap per round), for $O(n^2 + n\cdot n\log n)=O(n^2\log n)$.
+
+\problempart % Problem 2b
+\textbf{Merge sort.} Reads/writes of pointers are $O(1)$, but each comparison costs $\Theta(\log n)$,
+so what matters is the number of comparisons. Selection and insertion sort need $\Theta(n^2)$
+comparisons in the worst case, so $\Theta(n^2\log n)$ total. Merge sort needs only $O(n\log n)$
+comparisons, so $O(n\log^2 n)$ total, which is better.
+
+\problempart % Problem 2c
+\textbf{Insertion sort.} Selection sort always takes $\Theta(n^2)$ and merge sort always takes
+$\Theta(n\log n)$, whatever the input. Insertion sort's inner loop stops as soon as an item is in
+place, so its running time is $O(n + I)$ where $I$ is the number of inversions (each inner-loop
+swap removes exactly one inversion). One swap of adjacent items changes the number of inversions
+by at most one, so after $\log\log n$ such swaps $I\le \log\log n$. Then insertion sort runs in
+$O(n+\log\log n)=O(n)$ time, which beats $\Theta(n\log n)$.
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+
+\textbf{Idea:} search from both ends at once with exponentially growing steps (like exponential
+search), stop as soon as Datum is bracketed, then binary search the bracket.
+
+\textbf{Algorithm.} For $i=0,1,2,\dots$:
+\begin{enumerate}
+\item Teleport to kilometer $2^i$ (counted from the north end) and use the tracker. If Datum is
+here, done. If Datum is \emph{north} of here, he lies in $(2^{i-1},2^i)$: stop and binary search
+that range.
+\item Otherwise teleport to kilometer $n-2^i$. If Datum is here, done. If Datum is \emph{south}
+of here, he lies in $(n-2^i,\,n-2^{i-1})$: stop and binary search that range.
+\item Otherwise continue with $i+1$.
+\end{enumerate}
+(For $i=0$ the ``previous'' probe is the end of the island itself.)
+
+\textbf{Correctness.} Suppose Datum is at distance $k$ from the nearest end, and say it is the north
+end ($k\le n/2$; the south case is symmetric). For every $i$ with $2^i<k$, the north probe says
+``south'' and the south probe (at $n-2^i > k$) says ``north'', so nothing triggers. At the first
+$i$ with $2^i\ge k$ the north probe finds him or reports ``north'', and since he was south of
+$2^{i-1}$ he is bracketed in $(2^{i-1},2^i)$. The south probes cannot stop the search earlier,
+because Datum is never south of $n-2^{i}$ while $2^i<n-k$, and $2^i < 2k \le n$ at that point.
+Binary search on a bracket that contains Datum then returns his exact kilometer.
+
+\textbf{Running time.} The first $i$ with $2^i\ge k$ satisfies $i=\lceil\lg k\rceil$, so we make at
+most $2(i+1)=O(\log k)$ probes in the doubling phase. The bracket has fewer than $2^{i-1}<k$
+kilometers, so binary search uses $O(\log k)$ more probes. Total $O(\log k)$.
+
+\newpage
+\problem  % Problem 4
+
+\textbf{Data structure.} Keep two things:
+\begin{itemize}
+\item a doubly linked list $L$ of all \emph{undeleted} messages, in the order they were sent
+(oldest at the head, newest at the tail);
+\item an array $S$ of the $n$ viewer IDs, sorted by ID. Each entry $S[j]$ stores the viewer's ID
+and a pointer to that viewer's own singly linked list $L_v$, whose nodes point to the nodes of $L$
+holding $v$'s messages. A \texttt{None} pointer in place of $L_v$ means $v$ is banned.
+\end{itemize}
+
+\textbf{build($V$).} Put the $n$ IDs into $S$ with an empty $L_v$ each ($O(n)$), set $L$ to empty
+($O(1)$), and sort $S$ by ID with merge sort ($O(n\log n)$). Worst-case $O(n\log n)$.
+
+\textbf{send($v,m$).} Binary search $S$ for $v$ in $O(\log n)$. If $L_v$ is \texttt{None}, the
+viewer is banned and nothing happens. Otherwise append a new node $x$ holding $m$ at the tail of
+$L$ ($O(1)$) and insert a pointer to $x$ at the front of $L_v$ ($O(1)$). Worst-case $O(\log n)$.
+
+\textbf{recent($k$).} Start at the tail of $L$ and walk backward through $\min(k,|L|)$ nodes,
+returning their messages. Since $L$ contains exactly the undeleted messages in order, these are
+the $k$ most recent ones. Worst-case $O(k)$.
+
+\textbf{ban($v$).} Binary search $S$ for $v$ in $O(\log n)$. For each of the $n_v$ pointers in
+$L_v$, unlink the node it points to from $L$; this is $O(1)$ each because $L$ is doubly linked,
+so no search is needed. Finally set $v$'s pointer in $S$ to \texttt{None} (and drop $L_v$).
+Worst-case $O(n_v+\log n)$.
+
+All invariants hold after each operation: $L$ always holds exactly the messages of non-banned
+viewers in sending order, and each $L_v$ points to exactly the nodes of $L$ sent by $v$.
+
+\newpage
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+Think of a booking schedule as a step function ``number of rooms in use at time $x$''. Booking
+$(k,s,t)$ means the function goes up by $k$ at time $s$ and down by $k$ at time $t$. The step
+function of $R_1\cup R_2$ is the \emph{sum} of the two step functions, so we can compute it by
+merging their change points.
+
+\textbf{Algorithm.}
+\begin{enumerate}
+\item Turn each schedule into a list of events $(\text{time},\text{change})$: each booking
+$(k,s,t)$ gives $(s,+k)$ and $(t,-k)$. Because bookings in a schedule are disjoint and sorted,
+each event list is already sorted by time.
+\item Merge the two sorted event lists into one sorted list $E$, as in merge sort.
+\item Sweep through $E$ keeping the current room count $c$ (initially $0$) and the time
+$\mathit{start}$ of the current stretch. Take all events with the same time $T$ together and let
+$\delta$ be the sum of their changes. If $\delta\neq 0$: if $c>0$, output booking
+$(c,\mathit{start},T)$; then set $c\gets c+\delta$ and $\mathit{start}\gets T$.
+If $\delta=0$, do nothing.
+\end{enumerate}
+
+\textbf{Correctness.} Between two consecutive times where the count changes, the number of rooms in
+use is constant and equals $c$, so a booking $(c,\mathit{start},T)$ is output exactly for each
+maximal stretch with $c>0$. Skipping times with $\delta=0$ means two neighbouring stretches with the
+same count are never split (so adjacent bookings have different room counts), and stretches with
+$c=0$ produce no booking. The result is therefore the unique satisfying schedule for
+$R_1\cup R_2$, with bookings disjoint and in increasing order.
+
+\textbf{Running time.} There are $2n$ events. Building the lists, merging, and sweeping each take
+$O(n)$ time, so the total is $O(n)$.
+
+\problempart % Problem 5b
+Use divide and conquer. If $|R|=1$ with $R=\{(s,t)\}$, return $((1,s,t))$. Otherwise split $R$ into
+two halves $R_1,R_2$ of sizes $\lfloor n/2\rfloor$ and $\lceil n/2\rceil$, recursively compute
+their satisfying schedules $B_1,B_2$, and combine them with the merge from part (a).
+
+\textbf{Correctness} follows by induction on $|R|$: the base case is clearly satisfying, and
+part (a) turns satisfying schedules of $R_1,R_2$ into a satisfying schedule of $R_1\cup R_2$.
+
+\textbf{Running time.} A schedule for $m$ requests has at most $2m-1$ bookings, so the merge at size
+$n$ costs $O(n)$ and $T(n)=2T(n/2)+O(n)$. By Master Theorem case 2, $T(n)=\Theta(n\log n)$.
+
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+
+\begin{verbatim}
+def merge_bookings(B1, B2):
+    # booking -> events (time, change in rooms); output is time-sorted
+    def events(B):
+        ev = []
+        for k, s, t in B:
+            ev.append((s, k))
+            ev.append((t, -k))
+        return ev
+    E1, E2 = events(B1), events(B2)
+    # standard two-pointer merge of two sorted lists
+    E, a, b = [], 0, 0
+    while a < len(E1) or b < len(E2):
+        if b == len(E2) or (a < len(E1) and E1[a][0] <= E2[b][0]):
+            E.append(E1[a]); a += 1
+        else:
+            E.append(E2[b]); b += 1
+    # sweep: group events at equal times; emit booking when count changes
+    B, rooms, start, i = [], 0, 0, 0
+    while i < len(E):
+        T, delta = E[i]
+        i += 1
+        while i < len(E) and E[i][0] == T:
+            delta += E[i][1]
+            i += 1
+        if delta != 0:
+            if rooms > 0:
+                B.append((rooms, start, T))
+            rooms += delta
+            start = T
+    return B
+
+def satisfying_booking(R):
+    if len(R) == 1:
+        s, t = R[0]
+        return ((1, s, t),)
+    m = len(R) // 2
+    B1 = satisfying_booking(R[:m])
+    B2 = satisfying_booking(R[m:])
+    return tuple(merge_bookings(B1, B2))
+\end{verbatim}
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
