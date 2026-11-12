@@ -16,7 +16,7 @@ This folder contains notes and implementations from MIT 6.006 Lecture 4 / Recita
 
 | File | What it contains |
 |---|---|
-| `notes.md` | Full notes, intuition, proofs, complexity, common mistakes |
+| `lec4_note.md.md` | Full notes, intuition, proofs, complexity, common mistakes |
 | `direct_access_array.py` | Direct Access Array implementation |
 | `hash_table_set.py` | Hash Table Set with chaining and resizing |
 | `README.md` | Overview of this folder |
