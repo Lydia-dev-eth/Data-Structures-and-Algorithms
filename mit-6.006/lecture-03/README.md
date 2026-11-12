@@ -17,7 +17,7 @@ This folder contains notes and implementations from **MIT 6.006 Lecture 3**, foc
 
 | File                  | What it contains                                                                             |
 | --------------------- | -------------------------------------------------------------------------------------------- |
-| `notes.md`            | Full lecture notes, intuition, complexity analysis, recurrence patterns, and common mistakes |
+| `lec3_note.md.md`            | Full lecture notes, intuition, complexity analysis, recurrence patterns, and common mistakes |
 | `sorted_array_set.py` | Sorted Array Set implementation using an underlying `Array_Seq` and binary search            |
 | `selection_sort.py`   | Selection Sort implementation                                                                |
 | `insertion_sort.py`   | Insertion Sort implementation                                                                |
