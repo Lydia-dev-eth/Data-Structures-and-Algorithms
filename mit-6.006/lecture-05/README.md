@@ -15,7 +15,7 @@ This folder contains notes and implementations from MIT 6.006 Lecture 5 / Recita
 
 | File | What it contains |
 |---|---|
-| `notes.md` | Full notes, intuition, proofs, complexity, common mistakes |
+| `lec6_note.md` | Full notes, intuition, proofs, complexity, common mistakes |
 | `direct_access_sort.py` | Direct Access Array Sort |
 | `counting_sort.py` | Counting Sort (cumulative sums and chains versions) |
 | `tuple_sort.py` | Tuple Sort |
