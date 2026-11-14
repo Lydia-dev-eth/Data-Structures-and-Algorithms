@@ -1,0 +1,278 @@
+%
+% 6.006 problem set 3 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{3}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+Compute $h(k)=(10k+4)\bmod 7$ for each key, in order:
+$47\to 5$, $61\to 5$, $36\to 0$, $52\to 6$, $56\to 4$, $33\to 5$, $92\to 0$.
+Later keys are appended to the end of a slot's list, so the table is:
+
+\begin{center}
+\begin{tabular}{c|l}
+slot & keys \\ \hline
+0 & $36 \to 92$ \\
+1 & \\
+2 & \\
+3 & \\
+4 & $56$ \\
+5 & $47 \to 61 \to 33$ \\
+6 & $52$
+\end{tabular}
+\end{center}
+
+\problempart % Problem 1b
+Seven keys must go into seven slots with no collision, so $c\ge 7$ is needed (for $c<7$ the value
+$(10k+4)\bmod c$ takes fewer than 7 values, so by pigeonhole two keys collide). Checking
+$c=7,8,\dots$ in order, with the hash values of $(47,61,36,52,56,33,92)$:
+
+\begin{center}
+\begin{tabular}{c|c|c}
+$c$ & hash values & distinct slots used \\ \hline
+7 & $5,5,0,6,4,5,0$ & 4 \\
+8 & $2,6,4,4,4,6,4$ & 3 \\
+9 & $6,2,4,2,6,1,6$ & 4 \\
+10 & $4,4,4,4,4,4,4$ & 1 \\
+11 & $1,2,1,0,3,4,0$ & 5 \\
+12 & $6,2,4,1,0,3,0$ & 6 \\
+13 & $6,3,0,4,5,2,1$ & 7
+\end{tabular}
+\end{center}
+
+Every $c$ from 7 to 12 has a collision, and for $c=13$ all seven hash values are different.
+So the smallest value is $\mathbf{c=13}$.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+\textbf{They can guarantee it.} Choose two IDs with the same remainder mod $n$, for example
+$k_1=1$ and $k_2=n+1$ (both are less than $u$ since $u\gg 2n$). For every $a,b$:
+$ak_2+b = ak_1 + an + b \equiv ak_1+b \pmod n$, so $h_{ab}(k_1)=h_{ab}(k_2)$ for \emph{every}
+function in the family. They are roommates with probability 1.
+
+\problempart % Problem 2b
+\textbf{They can guarantee it.} Here $h_a(k)=\left(\left\lfloor \frac{kn}{u}\right\rfloor + a\right)\bmod n$.
+Choose $k_1=1$ and $k_2=2$. Since $u\gg 2n$, we have $0\le n/u < 2n/u < 1$, so
+$\lfloor k_1 n/u\rfloor=\lfloor k_2 n/u\rfloor=0$. Both IDs then get the same value $a \bmod n$ for
+every $a$, so $h_a(k_1)=h_a(k_2)$ for every function in the family. They are roommates with probability 1.
+
+\problempart % Problem 2c
+\textbf{They cannot guarantee it.} This is the universal hash family from lecture. For any two
+different keys $k_1\ne k_2$, a random $h$ from a universal family satisfies
+$\Pr[h(k_1)=h(k_2)]\le 1/m$, where $m$ is the number of slots. Here $m=n$, so Rony and Tiri
+collide with probability at most $1/n$, whatever IDs they choose. Since $1/n<1$ (for $n\ge 2$), they
+cannot guarantee being roommates; the best they can hope for is the universal bound $1/n$.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 3
+
+\begin{problemparts}
+\problempart % Problem 3a
+\textbf{Radix sort, $\Theta(n)$.} The identifier has $16\lceil\log_4\sqrt n\rceil$ characters, and
+$\log_4\sqrt n=\tfrac14\lg n$, so it has $O(\log n)$ characters of 8 bits each. Read the whole string as one
+integer (comparing two fixed-length strings alphabetically is the same as comparing their integers).
+That integer is less than
+$2^{8\cdot 16\lceil\frac14\lg n\rceil}\le 2^{32\lg n+128}=2^{128}\,n^{32}$, a polynomial in $n$.
+In the word-RAM a word has $w\ge\lg n$ bits, so the integer takes a constant number of words.
+Radix sort in base $n$ handles integers up to $n^{c}$ in $c$ passes of counting sort, here
+$O(n+n\log_n n^{32})=O(n)$ time.
+
+\problempart % Problem 3b
+\textbf{Counting sort, $\Theta(n)$.} Every age is an integer in $[0,800{,}000]$, a range of constant
+size. Counting sort takes $\Theta(n+800{,}000)=\Theta(n)$ time. (Radix sort would also work.)
+
+\problempart % Problem 3c
+\textbf{Radix sort, $\Theta(n)$.} Multiply every thickness $m/n^3$ by $n^3$ to get the integer $m$,
+with $0\le m\le 4n^3$. These integers are bounded by a polynomial in $n$, so radix sort in base
+$n$ uses a constant number of counting-sort passes (about 4), for $\Theta(n)$ time. Sorting the
+integers sorts the thicknesses in the same order.
+
+\problempart % Problem 3d
+\textbf{Merge sort, $\Theta(n\log n)$.} The only thing we can do with two slices is compare them
+(in $O(1)$ time), and the number of comparisons needed to sort $n$ items in the comparison model is
+$\Omega(n\log n)$. Merge sort does $O(n\log n)$ comparisons, so it is asymptotically optimal here;
+no faster algorithm exists for this model.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+\textbf{Idea:} Each $b_i$ can only pair with one value, $r-b_i$. Use a hash table to look that
+value up quickly instead of scanning all boxes.
+
+\textbf{Algorithm.}
+\begin{enumerate}
+\item Insert every pair $(b_i, i)$ into a hash table $H$ keyed by $b_i$, with value $i$.
+\item For each $i$, look up $r-b_i$ in $H$. If it is found with index $j$, and $j\ne i$ and
+$|i-j|<n/10$, return True.
+\item If no $i$ succeeds, return False.
+\end{enumerate}
+
+\textbf{Correctness.} The values are all different, so $r-b_i$ appears at most once in $B$, and the
+table returns exactly the one box that could pair with box $i$. We check $j\ne i$ because $b_i=r/2$
+would otherwise match itself. The algorithm tests every box, so it finds a close pair if one exists.
+
+\textbf{Running time.} Building $H$ takes expected $O(n)$ time ($n$ inserts of expected $O(1)$ each),
+and $n$ lookups take expected $O(1)$ each, so the total is expected $O(n)$.
+
+\problempart % Problem 4b
+\textbf{Idea:} With $r<n^2$, only values below $r$ matter, so we can radix sort them in $O(n)$ and
+replace the hash table by a two-finger sweep on the sorted array.
+
+\textbf{Algorithm.}
+\begin{enumerate}
+\item Make pairs $(b_i,i)$ and drop every pair with $b_i\ge r$ (the other number in the pair
+must be positive, so such a box can never be part of a pair that sums to $r$). Call the remaining
+array $B'$.
+\item Every remaining value is less than $r<n^2$, so radix sort $B'$ by $b_i$ in base $n$
+(two passes of counting sort) in $O(n)$ time. Call the sorted array $A$.
+\item Set $i=0$ and $j=|A|-1$. While $i<j$:
+\begin{itemize}
+\item if $A[i].b+A[j].b=r$: if $|A[i].x-A[j].x|<n/10$ return True; otherwise set $i\gets i+1$ and
+$j\gets j-1$ (neither box has another possible partner, because the values are distinct);
+\item if the sum is less than $r$: $i\gets i+1$;
+\item if the sum is greater than $r$: $j\gets j-1$.
+\end{itemize}
+\item Return False.
+\end{enumerate}
+(Here $A[i].b$ is the number of reams and $A[i].x$ the original position.)
+
+\textbf{Correctness.} If $A[i].b+A[j].b<r$, then $A[i]$ plus any element at or before $A[j]$ is also
+less than $r$, so $A[i]$ has no partner left and we can discard it. The case ``greater than $r$'' is
+symmetric for $A[j]$. When the sum equals $r$, those two boxes are each other's only possible partner,
+so after checking closeness both can be discarded. Every pair that sums to $r$ is therefore examined.
+
+\textbf{Running time.} Filtering is $O(n)$ and radix sort is $O(n)$. Each loop step takes $O(1)$ time
+and shrinks $j-i$ by at least one, so the loop runs at most $n$ times. Total worst-case $O(n)$.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+\textbf{Idea:} Two strings are anagrams exactly when they have the same letter-frequency table
+(26 counts, one per letter). Store the frequency table of every length-$k$ substring of $A$ in
+a hash table, with the number of substrings that have that table.
+
+\textbf{Build.}
+\begin{enumerate}
+\item Compute the frequency table $F$ of the first $k$ letters of $A$ in $O(k)$ time.
+\item Slide the window one step at a time: to move from the window starting at $A[i]$ to the
+one starting at $A[i+1]$, subtract one from the count of letter $A[i]$ and add one to the count of
+letter $A[i+k]$. This is $O(1)$ per step.
+\item After each step, look up the current table in a hash table $H$ and add one to its count
+(or insert it with count 1). Each table has 26 counts, each at most $|A|$, so it is a
+constant number of words and can be hashed and compared in $O(1)$.
+\end{enumerate}
+There are $|A|-k+1$ windows, so building takes expected $O(k+|A|)=O(|A|)$ time.
+
+\textbf{Query($B$), $|B|=k$.} Compute the frequency table $f$ of $B$ in $O(k)$ time and look it up
+in $H$ in expected $O(1)$ time. Return the stored count, or 0 if $f$ is not in $H$.
+
+\textbf{Correctness.} A substring of $A$ of length $k$ is an anagram of $B$ if and only if it has
+the same frequency table as $B$. $H[f]$ counts exactly those windows. The sliding update gives the
+correct table for each window because it changes only the two letters that enter and leave.
+
+\textbf{Running time.} Build is expected $O(|A|)$ and a query is expected $O(k)$.
+
+\problempart % Problem 5b
+Build the data structure from part (a) on $T$ with window length $k$ (all $S_i$ have length $k$), in
+expected $O(|T|)$ time. Then query each $S_i$ and store the answers $a_i$ in an array: $n$
+queries of expected $O(k)$ each, so expected $O(nk)$. Total expected $O(|T|+nk)$. It is correct because each
+query returns the anagram substring count of $S_i$ in $T$, by part (a).
+
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
